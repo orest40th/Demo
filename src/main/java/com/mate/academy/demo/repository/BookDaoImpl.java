@@ -21,7 +21,9 @@ public class BookDaoImpl implements BookRepository {
     @Override
     public Book save(Book book) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.persist(book);
             transaction.commit();
@@ -33,6 +35,10 @@ public class BookDaoImpl implements BookRepository {
             }
 
             throw new DataProcessingException("Cannot insert entity into DB: " + book, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
 
