@@ -1,5 +1,6 @@
 package com.mate.academy.demo.repository;
 
+import com.mate.academy.demo.exception.DataProcessingException;
 import com.mate.academy.demo.model.Book;
 import java.util.List;
 import org.hibernate.Session;
@@ -31,7 +32,7 @@ public class BookDaoImpl implements BookRepository {
                 transaction.rollback();
             }
 
-            throw new RuntimeException("Cannot insert entity into DB: " + book, e);
+            throw new DataProcessingException("Cannot insert entity into DB: " + book, e);
         }
     }
 
@@ -40,8 +41,7 @@ public class BookDaoImpl implements BookRepository {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("from Book", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Cannot fetch all entities from DB: "
-                    + Book.class.getSimpleName(), e);
+            throw new DataProcessingException("Cannot fetch all books from DB", e);
         }
     }
 }
