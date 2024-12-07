@@ -13,23 +13,4 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
-
-    /*@Bean
-    public CommandLineRunner commandLineRunner() {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... args) throws Exception {
-                Book javaBook = new Book();
-                javaBook.setAuthor("user userowsky");
-                javaBook.setDescription("java coding reference");
-                javaBook.setTitle("Coding in Java");
-                javaBook.setIsbn("978-3-16-148410-0");
-                javaBook.setPrice(BigDecimal.TEN);
-                javaBook.setCoverImage("jvrf.png");
-
-                bookService.save(javaBook);
-                System.out.println(bookService.findAll());
-            }
-        };
-    }*/
 }
