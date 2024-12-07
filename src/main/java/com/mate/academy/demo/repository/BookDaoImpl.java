@@ -4,21 +4,17 @@ import com.mate.academy.demo.exception.DataProcessingException;
 import com.mate.academy.demo.model.Book;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class BookDaoImpl implements BookRepository {
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public BookDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Book save(Book book) {

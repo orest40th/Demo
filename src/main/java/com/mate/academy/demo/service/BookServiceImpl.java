@@ -6,7 +6,6 @@ import com.mate.academy.demo.mapper.BookMapper;
 import com.mate.academy.demo.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +31,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream()
-                        .map(bookMapper::toDto)
-                                .collect(Collectors.toList());
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
