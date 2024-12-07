@@ -52,7 +52,7 @@ public class BookDaoImpl implements BookRepository {
 
             return Optional.ofNullable(query.getSingleResult());
         } catch (Exception e) {
-            throw new DataProcessingException("Cannot fetch books from DB by id " + id, e);
+            throw new DataProcessingException("Cannot fetch book from DB by id " + id, e);
         }
     }
 
