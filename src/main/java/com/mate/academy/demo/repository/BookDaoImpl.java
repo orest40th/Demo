@@ -3,9 +3,11 @@ package com.mate.academy.demo.repository;
 import com.mate.academy.demo.exception.DataProcessingException;
 import com.mate.academy.demo.model.Book;
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +41,18 @@ public class BookDaoImpl implements BookRepository {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Book> query = session.createQuery("from Book where id = :value",
+                    Book.class).setParameter("value", id);
+
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (Exception e) {
+            throw new DataProcessingException("Cannot fetch books from DB by id " + id, e);
         }
     }
 
