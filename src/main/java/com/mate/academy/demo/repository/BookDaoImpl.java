@@ -1,4 +1,4 @@
-package com.mate.academy.demo.repository;
+/*package com.mate.academy.demo.repository;
 
 import com.mate.academy.demo.exception.DataProcessingException;
 import com.mate.academy.demo.model.Book;
@@ -60,4 +60,4 @@ public class BookDaoImpl implements BookRepository {
             throw new DataProcessingException("Cannot fetch all books from DB", e);
         }
     }
-}
+}*/
