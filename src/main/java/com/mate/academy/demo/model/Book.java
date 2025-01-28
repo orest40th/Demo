@@ -2,8 +2,6 @@ package com.mate.academy.demo.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,8 +14,8 @@ import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "books")
-@SQLRestriction("status <> 'DELETED'")
-@SQLDelete(sql = "UPDATE books SET status = 'deleted' WHERE id=?")
+@SQLRestriction("is_deleted = false")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id=?")
 @Getter
 @Setter
 public class Book {
@@ -42,16 +40,6 @@ public class Book {
     @Column(nullable = false)
     private String coverImage;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.ACTIVE;
-
-    public enum Status {
-        ACTIVE,
-        DELETED;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private boolean isDeleted;
 }
