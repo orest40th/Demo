@@ -1,13 +1,17 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.BookDto;
+import com.mate.academy.demo.dto.BookSearchParametersDto;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.mapper.BookMapper;
 import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,6 +44,25 @@ public class BookServiceImpl implements BookService {
                 () -> new EntityNotFoundException("Book not found by id " + id));
         bookMapper.updateBookFromDto(bookDto, bookFetched);
         return bookMapper.toDto(bookRepository.save(bookFetched));
+    }
+
+    @Override
+    public List<BookDto> searchAll(BookSearchParametersDto searchParametersDto) {
+        Map<String, List<String>> params = new HashedMap<>();
+
+        if (searchParametersDto.titles() != null && searchParametersDto.titles().length > 0) {
+            params.put("title", Arrays.asList(searchParametersDto.titles()));
+        }
+
+        if (searchParametersDto.authors() != null && searchParametersDto.authors().length > 0) {
+            params.put("author", Arrays.asList(searchParametersDto.authors()));
+        }
+
+        if (searchParametersDto.isbns() != null && searchParametersDto.isbns().length > 0) {
+            params.put("isbn", Arrays.asList(searchParametersDto.isbns()));
+        }
+
+        return bookRepository.findAll(params).stream().map(bookMapper::toDto).toList();
     }
 
     @Override
