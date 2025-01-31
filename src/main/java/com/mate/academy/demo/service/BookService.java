@@ -1,7 +1,6 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.BookDto;
-import com.mate.academy.demo.dto.BookSearchParametersDto;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import java.util.List;
 
@@ -15,6 +14,4 @@ public interface BookService {
     void deleteById(Long id);
 
     BookDto updateById(CreateBookRequestDto bookDto, Long id);
-
-    List<BookDto> searchAll(BookSearchParametersDto searchParametersDto);
 }
