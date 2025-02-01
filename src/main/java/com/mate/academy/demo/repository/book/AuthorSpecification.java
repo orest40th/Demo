@@ -19,7 +19,8 @@ public class AuthorSpecification implements SpecificationProvider<Book> {
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query,
                                          CriteriaBuilder criteriaBuilder) {
-                return root.get("author").in(Arrays.stream(params).toArray());
+                return root.get(BookSearchParameters.Type.AUTHOR.name().toLowerCase())
+                        .in(Arrays.stream(params).toArray());
             }
         };
     }

@@ -18,7 +18,8 @@ public class IsbnSpecification implements SpecificationProvider<Book> {
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query,
                                          CriteriaBuilder criteriaBuilder) {
-                return root.get("isbn").in(Arrays.stream(params).toArray());
+                return root.get(BookSearchParameters.Type.ISBN.name().toLowerCase())
+                        .in(Arrays.stream(params).toArray());
             }
         };
     }

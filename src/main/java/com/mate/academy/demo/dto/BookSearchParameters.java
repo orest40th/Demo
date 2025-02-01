@@ -6,4 +6,10 @@ public record BookSearchParameters(String[] titles, String[] authors, String[] i
         AUTHORS,
         ISBNS
     }
+
+    public enum Type {
+        TITLE,
+        AUTHOR,
+        ISBN
+    }
 }

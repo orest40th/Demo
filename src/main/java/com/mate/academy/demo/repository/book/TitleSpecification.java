@@ -18,7 +18,8 @@ public class TitleSpecification implements SpecificationProvider<Book> {
             @Override
             public Predicate toPredicate(Root<Book> root, CriteriaQuery<?> query,
                                          CriteriaBuilder criteriaBuilder) {
-                return root.get("title").in(Arrays.stream(params).toArray());
+                return root.get(BookSearchParameters.Type.TITLE.name().toLowerCase())
+                        .in(Arrays.stream(params).toArray());
             }
         };
     }
