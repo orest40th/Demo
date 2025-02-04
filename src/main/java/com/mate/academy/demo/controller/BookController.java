@@ -1,6 +1,7 @@
 package com.mate.academy.demo.controller;
 
 import com.mate.academy.demo.dto.BookDto;
+import com.mate.academy.demo.dto.BookSearchParameters;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.service.BookService;
 import java.util.List;
@@ -30,6 +31,11 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParameters params) {
+        return bookService.search(params);
     }
 
     @PostMapping
