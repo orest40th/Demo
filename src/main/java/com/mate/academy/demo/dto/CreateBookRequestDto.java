@@ -3,13 +3,13 @@ package com.mate.academy.demo.dto;
 import com.mate.academy.demo.validation.Author;
 import com.mate.academy.demo.validation.CoverImage;
 import com.mate.academy.demo.validation.Description;
-import com.mate.academy.demo.validation.Isbn;
 import com.mate.academy.demo.validation.Title;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.ISBN;
 
 @Getter
 @Setter
@@ -20,11 +20,10 @@ public class CreateBookRequestDto {
     @Author
     private String author;
 
-    @Isbn
+    @ISBN(type = ISBN.Type.ISBN_13)
     private String isbn;
 
-    @NotNull
-    @Min(0)
+    @Positive
     private BigDecimal price;
 
     @Description

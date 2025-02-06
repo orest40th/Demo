@@ -29,17 +29,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 .stream()
                 .map(e -> {
                     if (e instanceof FieldError) {
-                        String field = ((FieldError) e).getField();
-                        String message = e.getDefaultMessage();
-
-                        return field + ' ' + message;
+                        return ((FieldError) e).getField() + ' ' + e.getDefaultMessage();
                     }
 
                     return e.getDefaultMessage();
                 })
                 .toList();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
         body.put("message", errors);
 
         return new ResponseEntity<>(body, headers, status);
@@ -49,7 +45,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Map<String,Object>> handleEntityNotFound(EntityNotFoundException ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.NOT_FOUND);
         body.put("message", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
@@ -59,7 +54,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Map<String,Object>> handleGeneralException(Exception ex) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
         body.put("message", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
