@@ -4,7 +4,6 @@ import com.mate.academy.demo.validation.Author;
 import com.mate.academy.demo.validation.CoverImage;
 import com.mate.academy.demo.validation.Description;
 import com.mate.academy.demo.validation.Title;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import lombok.Getter;
