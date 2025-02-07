@@ -4,8 +4,10 @@ import com.mate.academy.demo.dto.BookDto;
 import com.mate.academy.demo.dto.BookSearchParameters;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.service.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +26,8 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public List<BookDto> getAll() {
-        return bookService.findAll();
+    public List<BookDto> getAll(Pageable pageable) {
+        return bookService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -34,17 +36,19 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public List<BookDto> searchBooks(BookSearchParameters params) {
-        return bookService.search(params);
+    public List<BookDto> searchBooks(BookSearchParameters params, Pageable pageable) {
+        return bookService.search(params, pageable).getContent();
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
         return bookService.save(bookDto);
     }
 
     @PutMapping("/{id}")
-    public BookDto updateBook(@RequestBody CreateBookRequestDto bookDto, @PathVariable Long id) {
+    public BookDto updateBook(
+            @RequestBody @Valid CreateBookRequestDto bookDto, @PathVariable Long id) {
         return bookService.updateById(bookDto, id);
     }
 
