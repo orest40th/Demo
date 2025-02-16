@@ -6,7 +6,7 @@ import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.mapper.BookMapper;
 import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
-import com.mate.academy.demo.repository.PhoneSpecificationBuilder;
+import com.mate.academy.demo.repository.BookSpecificationBuilder;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
 
-    private final PhoneSpecificationBuilder specBuilder;
+    private final BookSpecificationBuilder specBuilder;
 
     @Override
     public BookDto save(CreateBookRequestDto bookDto) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class PhoneSpecificationBuilder implements SpecificationBuilder<Book> {
+public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
     private final SpecificationProviderStrategy<Book> strategy;
 
     @Override
