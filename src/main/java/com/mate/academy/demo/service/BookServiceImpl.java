@@ -6,10 +6,11 @@ import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.mapper.BookMapper;
 import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
-import com.mate.academy.demo.repository.PhoneSpecificationBuilder;
+import com.mate.academy.demo.repository.BookSpecificationBuilder;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
 
-    private final PhoneSpecificationBuilder specBuilder;
+    private final BookSpecificationBuilder specBuilder;
 
     @Override
     public BookDto save(CreateBookRequestDto bookDto) {
@@ -48,17 +49,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> findAll() {
-        return bookRepository.findAll().stream()
-                .map(bookMapper::toDto)
-                .toList();
+    public Page<BookDto> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 
-    public List<BookDto> search(BookSearchParameters params) {
+    public Page<BookDto> search(BookSearchParameters params, Pageable pageable) {
         Specification<Book> spec = specBuilder.build(params);
-        return bookRepository.findAll(spec)
-                .stream()
-                .map(bookMapper::toDto)
-                .toList();
+        return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
     }
 }
