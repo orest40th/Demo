@@ -1,6 +1,5 @@
 package com.mate.academy.demo.dto;
 
-import com.mate.academy.demo.validation.Author;
 import com.mate.academy.demo.validation.FieldMatch;
 import com.mate.academy.demo.validation.Name;
 import jakarta.validation.constraints.Email;
@@ -34,5 +33,5 @@ public class UserRegistrationRequestDto {
     private String lastName;
 
     @Length(min = 5, max = 100)
-    private  String shippingAddress;
+    private String shippingAddress;
 }
