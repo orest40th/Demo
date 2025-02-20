@@ -22,8 +22,7 @@ public class AuthenticationController {
 
     @Operation(summary = "Register a user", description = "Registers and saves a user to DB")
     @PostMapping("/registration")
-    public UserResponseDto registerUser(@RequestBody @Valid UserRegistrationRequestDto requestDto)
-            throws RegistrationException {
+    public UserResponseDto registerUser(@RequestBody @Valid UserRegistrationRequestDto requestDto) throws RegistrationException {
         return service.save(requestDto);
     }
 }
