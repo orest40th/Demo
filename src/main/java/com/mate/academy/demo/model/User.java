@@ -35,7 +35,7 @@ public class User {
     private String lastName;
 
     @Column(nullable = false)
-    private  String shippingAddress;
+    private String shippingAddress;
 
     private boolean isDeleted;
 }

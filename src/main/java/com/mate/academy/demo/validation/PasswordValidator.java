@@ -2,8 +2,6 @@ package com.mate.academy.demo.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.beans.BeanWrapperImpl;
-
 import java.lang.reflect.Field;
 
 public class PasswordValidator implements ConstraintValidator<FieldMatch, Object> {

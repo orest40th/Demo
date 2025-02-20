@@ -12,5 +12,5 @@ public class UserResponseDto {
 
     private String lastName;
 
-    private  String shippingAddress;
+    private String shippingAddress;
 }
