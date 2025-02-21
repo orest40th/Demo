@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class DescriptionValidator implements ConstraintValidator<Description, String> {
     private static final Pattern DESCRIPTION_PATTERN = Pattern.compile(
-            "^[A-Za-z0-9\\s.,!?'\"()-]{10,1000}$");
+            "^[A-Za-z0-9\\s.,!?'\"()-]+$");
 
     @Override
     public boolean isValid(String desc, ConstraintValidatorContext context) {

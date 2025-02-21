@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-books-table
+      id: create-users-table
       author: root
       changes:
         - createTable:
-            tableName: books
+            tableName: users
             columns:
               - column:
                   name: id
@@ -14,34 +14,28 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: title
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: shipping_address
                   type: VARCHAR(100)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: author
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: isbn
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-                    unique: true
-              - column:
-                  name: price
-                  type: DECIMAL(15, 2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: VARCHAR(1000)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: cover_image
-                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:

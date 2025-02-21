@@ -7,12 +7,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = DescriptionValidator.class)
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Constraint(validatedBy = PasswordValidator.class)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Description {
-    String message() default "must contain only valid characters"
-            + " (alphanumeric characters, spaces, and basic punctuation )";
+public @interface FieldMatch {
+    String message() default "Password mismatch.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
+
+    String password();
+    String repeatPassword();
 }
