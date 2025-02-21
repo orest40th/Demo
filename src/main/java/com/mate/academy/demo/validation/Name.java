@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Name {
-    String message() default "First name must start with an uppercase letter"
+    String message() default "must start with an uppercase letter"
             + " and contain only letters.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

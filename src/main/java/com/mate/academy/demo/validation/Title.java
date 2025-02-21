@@ -17,7 +17,7 @@ public @interface Title {
             + "periods, colons, quotes, "
             + "exclamation marks, "
             + "question marks "
-            + "and parentheses. Required length 2-100";
+            + "and parentheses.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

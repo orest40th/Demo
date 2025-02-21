@@ -3,6 +3,7 @@ package com.mate.academy.demo.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class PasswordValidator implements ConstraintValidator<FieldMatch, Object> {
     private String password;
@@ -25,7 +26,7 @@ public class PasswordValidator implements ConstraintValidator<FieldMatch, Object
             Object firstValue = passwordField.get(value);
             Object secondValue = repeatPasswordField.get(value);
 
-            return firstValue != null && firstValue.equals(secondValue);
+            return Objects.equals(firstValue, secondValue);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             return false;
         }

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ShippingAddress {
-    String message() default "Shipping address must be 5-100 characters"
+    String message() default "must be 5-100 characters"
             + ", allowing letters, numbers, spaces, commas, periods, and hyphens.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

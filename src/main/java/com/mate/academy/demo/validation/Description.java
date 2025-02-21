@@ -11,8 +11,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Description {
-    String message() default "Description must be between 10 and 1000 characters long"
-            + " and contain only valid characters"
+    String message() default "must contain only valid characters"
             + " (alphanumeric characters, spaces, and basic punctuation )";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

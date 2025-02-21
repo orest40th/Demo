@@ -9,14 +9,17 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.ISBN;
+import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
 public class CreateBookRequestDto {
     @Title
+    @Length(min = 2, max = 100)
     private String title;
 
     @Author
+    @Length(max = 50)
     private String author;
 
     @ISBN(type = ISBN.Type.ISBN_13)
@@ -26,6 +29,7 @@ public class CreateBookRequestDto {
     private BigDecimal price;
 
     @Description
+    @Length(min = 2, max = 1000)
     private String description;
 
     @CoverImage
