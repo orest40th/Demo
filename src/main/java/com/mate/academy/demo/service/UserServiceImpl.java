@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService {
         User model = mapper.toModel(requestDto);
         model.setPassword(encoder.encode(requestDto.getPassword()));
         model.setRoles(Set.of(roleRepository.findByName(
-                    Role.RoleName.USER.name()).orElseThrow(
+                    Role.RoleName.ROLE_USER.name()).orElseThrow(
                     () -> new EntityNotFoundException(
-                            "Role not found by name " + Role.RoleName.USER)
+                            "Role not found by name " + Role.RoleName.ROLE_USER)
         )));
 
         return mapper.toDto(userRepository.save(model));
@@ -59,9 +59,9 @@ public class UserServiceImpl implements UserService {
         User model = mapper.toModel(requestDto);
         model.setPassword(encoder.encode(requestDto.getPassword()));
         model.setRoles(Set.of(roleRepository.findByName(
-                    Role.RoleName.ADMIN.name()).orElseThrow(
+                    Role.RoleName.ROLE_ADMIN.name()).orElseThrow(
                     () -> new EntityNotFoundException(
-                            "Role not found by name " + Role.RoleName.ADMIN)
+                            "Role not found by name " + Role.RoleName.ROLE_ADMIN)
         )));
 
         mapper.toDto(userRepository.save(model));
