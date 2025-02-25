@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,18 +29,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @Operation(summary = "Get all books", description = "Retrieves a list of all available books.")
     @GetMapping
     public Page<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @Operation(summary = "Get a book by id", description = "Retrieves a book by id")
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookService.findById(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @Operation(summary = "Search all books",
             description = "Retrieves a sorted list of all available books with pagination")
     @GetMapping("/search")
@@ -47,6 +51,7 @@ public class BookController {
         return bookService.search(params, pageable);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Create a book", description = "Creates a new book in the db")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
@@ -54,6 +59,7 @@ public class BookController {
         return bookService.save(bookDto);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update an existing book",
             description = "Updates existing book parameters")
     @PutMapping("/{id}")
@@ -62,6 +68,7 @@ public class BookController {
         return bookService.updateById(bookDto, id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete a book", description = "Safe-deletes an existing book in the db")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")

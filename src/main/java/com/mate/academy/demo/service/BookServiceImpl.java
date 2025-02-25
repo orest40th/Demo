@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
-
     private final BookMapper bookMapper;
-
     private final BookSpecificationBuilder specBuilder;
 
     @Override

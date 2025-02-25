@@ -1,0 +1,47 @@
+databaseChangeLog:
+    - changeSet:
+        id: insert-new-users
+        author: root
+        changes:
+            - insert:
+                tableName: users
+                columns:
+                  - column:
+                      name: id
+                      value: 1
+                  - column:
+                      name: email
+                      value: 'admin1@adminmail.com'
+                  - column:
+                      name: password
+                      value: '$2a$10$9ei.QNVMESAzl/x7B4m5HubqB/17DqT3JIx9f4KaRSDla4yAmuq/e'
+                  - column:
+                      name: first_name
+                      value: 'Adminname'
+                  - column:
+                      name: last_name
+                      value: 'Adminsurname'
+                  - column:
+                      name: shipping_address
+                      value: '37-38 Admin shipping dr, OH'
+            - insert:
+                tableName: users
+                columns:
+                  - column:
+                      name: id
+                      value: 2
+                  - column:
+                      name: email
+                      value: 'user2@usermail.com'
+                  - column:
+                      name: password
+                      value: '$2a$10$sBdTKQkOKLTylh3hf4F1GuPo9OM9U7U10u378ch1T3Lp7s2stZVCq'
+                  - column:
+                      name: first_name
+                      value: 'Bob'
+                  - column:
+                      name: last_name
+                      value: 'Bub'
+                  - column:
+                      name: shipping_address
+                      value: '38-39Bobaddress new'
