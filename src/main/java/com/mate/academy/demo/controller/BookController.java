@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('ADMIN') or hasAuthority('USER')")
     @Operation(summary = "Get all books", description = "Retrieves a list of all available books.")
     @GetMapping
     public Page<BookDto> getAll(Pageable pageable) {
