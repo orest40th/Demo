@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final UserService service;
-
     private final AuthenticationService authService;
 
     @Operation(summary = "Register a user", description = "Registers and saves a user to DB")
@@ -34,7 +33,7 @@ public class AuthenticationController {
 
     @Operation(summary = "Log a user in", description = "JWT based login")
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto request) {
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
         return authService.authenticate(request);
     }
 }
