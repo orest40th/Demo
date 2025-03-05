@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
-    @Query(value = "Select bk from Book bk join fetch bk.categories cat where cat.id = :id")
+    @Query(value = "from Book b join b.categories cat where cat.id = :id")
     Page<Book> findAllByCategoryId(@Param("id") Long categoryId, Pageable pageable);
 
     @EntityGraph(attributePaths = "categories")

@@ -62,7 +62,7 @@ public class CategoryController {
             description = "Updates an existing category")
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      @RequestBody CreateCategoryRequestDto categoryDto) {
+                                      @RequestBody @Valid CreateCategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
