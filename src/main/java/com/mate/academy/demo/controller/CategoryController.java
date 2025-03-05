@@ -2,7 +2,7 @@ package com.mate.academy.demo.controller;
 
 import com.mate.academy.demo.dto.BookDtoWithoutCategoryIds;
 import com.mate.academy.demo.dto.CategoryDto;
-import com.mate.academy.demo.model.Category;
+import com.mate.academy.demo.dto.CreateCategoryRequestDto;
 import com.mate.academy.demo.service.BookService;
 import com.mate.academy.demo.service.CategoryService;
 import java.util.List;
@@ -28,12 +28,12 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody CreateCategoryRequestDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
     @GetMapping
-    public List<Category> getAll(Pageable pageable) {
+    public List<CategoryDto> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
@@ -44,7 +44,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      @RequestBody CategoryDto categoryDto) {
+                                      @RequestBody CreateCategoryRequestDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
