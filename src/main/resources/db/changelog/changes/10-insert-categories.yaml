@@ -8,16 +8,52 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
-                  value: 'novel'
+                  value: 'Science fiction'
               - column:
                   name: description
-                  value: 'novel desc'
+                  value: 'Sci-fi books'
         - insert:
             tableName: categories
             columns:
               - column:
                   name: name
-                  value: 'poem'
+                  value: 'Adventure Fiction'
               - column:
                   name: description
-                  value: 'poem desc'
+                  value: 'Adventure fiction books'
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'Mystery'
+              - column:
+                  name: description
+                  value: 'Mystery books'
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'Horror'
+              - column:
+                  name: description
+                  value: 'Horror books'
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'Romance'
+              - column:
+                  name: description
+                  value: 'Romance books'
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'Textbook'
+              - column:
+                  name: description
+                  value: 'Textbooks'

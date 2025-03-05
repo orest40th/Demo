@@ -21,5 +21,5 @@ public interface BookService {
 
     BookDto updateById(CreateBookRequestDto bookDto, Long id);
 
-    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId);
+    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable);
 }

@@ -43,7 +43,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryDto updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+    public CategoryDto updateCategory(@PathVariable Long id,
+                                      @RequestBody CategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
@@ -54,7 +55,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}/books")
-    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
-        return bookService.findAllByCategoryId(id);
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id,
+                                                                Pageable pageable) {
+        return bookService.findAllByCategoryId(id, pageable);
     }
 }
