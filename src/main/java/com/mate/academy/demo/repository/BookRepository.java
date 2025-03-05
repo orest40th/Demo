@@ -1,7 +1,6 @@
 package com.mate.academy.demo.repository;
 
 import com.mate.academy.demo.model.Book;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
     @Query(value = "Select bk from Book bk join fetch bk.categories cat where cat.id = :id")
-    List<Book> findAllByCategoryId(@Param("id") Long categoryId, Pageable pageable);
+    Page<Book> findAllByCategoryId(@Param("id") Long categoryId, Pageable pageable);
 
     @EntityGraph(attributePaths = "categories")
     @Override

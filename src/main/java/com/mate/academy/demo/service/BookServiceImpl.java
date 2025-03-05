@@ -9,7 +9,6 @@ import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
 import com.mate.academy.demo.repository.BookSpecificationBuilder;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,11 +48,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
         return bookRepository.findAllByCategoryId(categoryId, pageable)
-                .stream()
-                .map(bookMapper::toDtoWithoutCategories)
-                .toList();
+                .map(bookMapper::toDtoWithoutCategories);
     }
 
     @Override
@@ -61,6 +58,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 
+    @Override
     public Page<BookDto> search(BookSearchParameters params, Pageable pageable) {
         Specification<Book> spec = specBuilder.build(params);
         return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
