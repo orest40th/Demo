@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-new-books
+      author: root
+      changes:
+        - insert:
+            tableName: books
+            columns:
+                - column:
+                    name: title
+                    value: 'Database management'
+                - column:
+                    name: author
+                    value: 'Plato'
+                - column:
+                    name: isbn
+                    value: '9780134093413'
+                - column:
+                    name: price
+                    value: 95.99
+                - column:
+                    name: description
+                    value: 'A textbook about relational db management systems'
+                - column:
+                    name: cover_image
+                    value: "directory/subdirectory/coverImage.png"
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: 'Java Romance'
+              - column:
+                  name: author
+                  value: 'Java Mentor'
+              - column:
+                  name: isbn
+                  value: '9780306406157'
+              - column:
+                  name: price
+                  value: 75.99
+              - column:
+                  name: description
+                  value: 'A textbook about romance management'
+              - column:
+                  name: cover_image
+                  value: "directory/subdirectory/coverImage2.png"
