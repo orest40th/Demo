@@ -1,6 +1,7 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.BookDto;
+import com.mate.academy.demo.dto.BookDtoWithoutCategoryIds;
 import com.mate.academy.demo.dto.BookSearchParameters;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.mapper.BookMapper;
@@ -47,10 +48,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable) {
+        return bookRepository.findAllByCategoryId(categoryId, pageable)
+                .map(bookMapper::toDtoWithoutCategories);
+    }
+
+    @Override
     public Page<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable).map(bookMapper::toDto);
     }
 
+    @Override
     public Page<BookDto> search(BookSearchParameters params, Pageable pageable) {
         Specification<Book> spec = specBuilder.build(params);
         return bookRepository.findAll(spec, pageable).map(bookMapper::toDto);
