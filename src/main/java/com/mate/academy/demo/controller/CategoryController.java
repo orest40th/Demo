@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Post a category",
             description = "Creates a new category and adds it to the db ")
     @PostMapping
@@ -39,6 +41,7 @@ public class CategoryController {
         return categoryService.save(categoryDto);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Get all categories",
             description = "Retrieves a list of all available categories.")
     @GetMapping
@@ -46,6 +49,7 @@ public class CategoryController {
         return categoryService.findAll(pageable);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Get a category by id",
             description = "Retrieves a category by id")
     @GetMapping("/{id}")
@@ -53,6 +57,7 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Update a category",
             description = "Updates an existing category")
     @PutMapping("/{id}")
@@ -61,6 +66,7 @@ public class CategoryController {
         return categoryService.update(id, categoryDto);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Delete a category",
             description = "Soft-deletes an existing category")
     @DeleteMapping("/{id}")
@@ -69,6 +75,7 @@ public class CategoryController {
         categoryService.deleteById(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @Operation(summary = "Get all books by category",
             description = "Retrieves a page of all available books by category.")
     @GetMapping("/{id}/books")
