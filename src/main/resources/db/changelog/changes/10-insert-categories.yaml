@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-category
+      author: root
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'novel'
+              - column:
+                  name: description
+                  value: 'novel desc'
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: 'poem'
+              - column:
+                  name: description
+                  value: 'poem desc'

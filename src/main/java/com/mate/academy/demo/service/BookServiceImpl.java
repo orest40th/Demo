@@ -1,6 +1,7 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.BookDto;
+import com.mate.academy.demo.dto.BookDtoWithoutCategoryIds;
 import com.mate.academy.demo.dto.BookSearchParameters;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import com.mate.academy.demo.mapper.BookMapper;
@@ -8,6 +9,7 @@ import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
 import com.mate.academy.demo.repository.BookSpecificationBuilder;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +46,14 @@ public class BookServiceImpl implements BookService {
                 () -> new EntityNotFoundException("Book not found by id " + id));
         bookMapper.updateBookFromDto(bookDto, bookFetched);
         return bookMapper.toDto(bookRepository.save(bookFetched));
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId) {
+        return bookRepository.findAllByCategoryId(categoryId)
+                .stream()
+                .map(bookMapper::toDtoWithoutCategories)
+                .toList();
     }
 
     @Override
