@@ -7,7 +7,6 @@ import com.mate.academy.demo.model.Category;
 import com.mate.academy.demo.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .getContent()
                 .stream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
