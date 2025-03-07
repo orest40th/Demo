@@ -13,3 +13,7 @@ databaseChangeLog:
       file: db/changelog/changes/06-insert-users.yaml
   - include:
       file: db/changelog/changes/07-bind-user-role-join-table.yaml
+  - include:
+      file: db/changelog/changes/08-add-categories-table.yaml
+  - include:
+      file: db/changelog/changes/09-create-book-category-join-table.yaml

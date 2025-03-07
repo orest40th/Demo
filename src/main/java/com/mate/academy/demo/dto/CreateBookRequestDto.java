@@ -4,8 +4,10 @@ import com.mate.academy.demo.validation.Author;
 import com.mate.academy.demo.validation.CoverImage;
 import com.mate.academy.demo.validation.Description;
 import com.mate.academy.demo.validation.Title;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
+import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.ISBN;
@@ -34,4 +36,7 @@ public class CreateBookRequestDto {
 
     @CoverImage
     private String coverImage;
+
+    @NotEmpty
+    private Set<Long> categoryIds;
 }

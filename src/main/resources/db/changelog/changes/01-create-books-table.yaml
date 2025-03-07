@@ -49,3 +49,4 @@ databaseChangeLog:
                   type: TINYINT(1)
                   constraints:
                     nullable: false
+                  defaultValueNumeric: false

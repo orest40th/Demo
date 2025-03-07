@@ -1,6 +1,7 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.BookDto;
+import com.mate.academy.demo.dto.BookDtoWithoutCategoryIds;
 import com.mate.academy.demo.dto.BookSearchParameters;
 import com.mate.academy.demo.dto.CreateBookRequestDto;
 import org.springframework.data.domain.Page;
@@ -18,4 +19,6 @@ public interface BookService {
     void deleteById(Long id);
 
     BookDto updateById(CreateBookRequestDto bookDto, Long id);
+
+    Page<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId, Pageable pageable);
 }
