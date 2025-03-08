@@ -3,7 +3,6 @@ package com.mate.academy.demo.controller;
 import com.mate.academy.demo.dto.CartItemRequestDto;
 import com.mate.academy.demo.dto.CartItemRequestDtoWithoutId;
 import com.mate.academy.demo.dto.ShoppingCartDto;
-import com.mate.academy.demo.mapper.ShoppingCartMapper;
 import com.mate.academy.demo.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,6 +30,7 @@ public class ShoppingCartController {
     @Operation(summary = "Make a purchase",
             description = "fill the current logged user's cart with items")
     @PreAuthorize("hasAuthority('USER')")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
     public ShoppingCartDto purchase(@RequestBody CartItemRequestDto cartItem,
                                     Authentication authentication) {
@@ -41,7 +41,7 @@ public class ShoppingCartController {
             description = "View your shopping cart contents and details")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping()
-    public ShoppingCartDto purchase(Authentication authentication) {
+    public ShoppingCartDto viewContents(Authentication authentication) {
         return service.fetchShoppingCart(authentication.getName());
     }
 
