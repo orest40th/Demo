@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService service;
-    private final ShoppingCartMapper mapper;
 
     @Operation(summary = "Make a purchase",
             description = "fill the current logged user's cart with items")
