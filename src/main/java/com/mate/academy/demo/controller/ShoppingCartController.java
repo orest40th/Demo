@@ -31,7 +31,7 @@ public class ShoppingCartController {
 
     @Operation(summary = "Make a purchase",
             description = "fill the current logged user's cart with items")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @PostMapping()
     public ShoppingCartDto purchase(@RequestBody CartItemRequestDto cartItem,
                                     Authentication authentication) {
@@ -40,7 +40,7 @@ public class ShoppingCartController {
 
     @Operation(summary = "Show shopping cart",
             description = "View your shopping cart contents and details")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping()
     public ShoppingCartDto purchase(Authentication authentication) {
         return service.fetchShoppingCart(authentication.getName());
@@ -50,7 +50,7 @@ public class ShoppingCartController {
             description = "select a new different number of the same items "
                     + "for the current logged user's cart")
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("items/{cartItemId}")
     public ShoppingCartDto updateContent(@PathVariable Long cartItemId,
                                          @RequestBody CartItemRequestDtoWithoutId cartItem,
@@ -60,7 +60,7 @@ public class ShoppingCartController {
 
     @Operation(summary = "Remove an item", description = "Remove an item from"
             + " the current logged user's cart")
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @DeleteMapping("/items/{cartItemId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeContent(@PathVariable Long cartItemId, Authentication authentication) {
