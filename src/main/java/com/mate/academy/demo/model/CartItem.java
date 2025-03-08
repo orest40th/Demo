@@ -1,5 +1,6 @@
 package com.mate.academy.demo.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,8 @@ public class CartItem {
     private Book book;
 
     @EqualsAndHashCode.Exclude
-    private int quantity = 1;
+    @Column(nullable = false)
+    private Integer quantity;
 
     public void addOneMoreBook() {
         setQuantity(quantity + 1);
