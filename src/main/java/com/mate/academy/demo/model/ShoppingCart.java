@@ -29,6 +29,6 @@ public class ShoppingCart {
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE,
                     CascadeType.REMOVE},
-            orphanRemoval = true, fetch = FetchType.LAZY)
+            orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
 }
