@@ -1,7 +1,7 @@
 package com.mate.academy.demo.dto;
 
-public record CartitemDto(long id,
-                          long bookId,
+public record CartitemDto(Long id,
+                          Long bookId,
                           String bookTitle,
                           int quantity) {
 }
