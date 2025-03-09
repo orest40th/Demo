@@ -1,11 +1,12 @@
 package com.mate.academy.demo.controller;
 
 import com.mate.academy.demo.dto.CartItemRequestDto;
-import com.mate.academy.demo.dto.CartItemRequestDtoWithoutId;
 import com.mate.academy.demo.dto.ShoppingCartDto;
+import com.mate.academy.demo.model.User;
 import com.mate.academy.demo.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,18 +32,20 @@ public class ShoppingCartController {
             description = "fill the current logged user's cart with items")
     @PreAuthorize("hasAuthority('USER')")
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping()
-    public ShoppingCartDto purchase(@RequestBody CartItemRequestDto cartItem,
+    @PostMapping
+    public ShoppingCartDto purchase(@RequestBody @Valid CartItemRequestDto cartItem,
                                     Authentication authentication) {
-        return service.fillCart(cartItem, authentication.getName());
+        User user = (User) authentication.getPrincipal();
+        return service.fillCart(cartItem, user.getId());
     }
 
     @Operation(summary = "Show shopping cart",
             description = "View your shopping cart contents and details")
     @PreAuthorize("hasAuthority('USER')")
-    @GetMapping()
+    @GetMapping
     public ShoppingCartDto viewContents(Authentication authentication) {
-        return service.fetchShoppingCart(authentication.getName());
+        User user = (User) authentication.getPrincipal();
+        return service.fetchShoppingCart(user.getId());
     }
 
     @Operation(summary = "Refill your shopping cart",
@@ -52,9 +55,10 @@ public class ShoppingCartController {
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("items/{cartItemId}")
     public ShoppingCartDto updateContent(@PathVariable Long cartItemId,
-                                         @RequestBody CartItemRequestDtoWithoutId cartItem,
-                                      Authentication authentication) {
-        return service.updateContent(cartItemId, cartItem, authentication.getName());
+                                         @RequestBody @Valid CartItemRequestDto cartItem,
+                                         Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return service.updateContent(cartItemId, cartItem, user.getId());
     }
 
     @Operation(summary = "Remove an item", description = "Remove an item from"
@@ -63,6 +67,7 @@ public class ShoppingCartController {
     @DeleteMapping("/items/{cartItemId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeContent(@PathVariable Long cartItemId, Authentication authentication) {
-        service.removeContent(cartItemId, authentication.getName());
+        User user = (User) authentication.getPrincipal();
+        service.removeContent(cartItemId, user.getId());
     }
 }

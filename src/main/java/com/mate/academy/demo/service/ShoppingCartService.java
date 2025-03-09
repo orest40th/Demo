@@ -1,15 +1,18 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.CartItemRequestDto;
-import com.mate.academy.demo.dto.CartItemRequestDtoWithoutId;
 import com.mate.academy.demo.dto.ShoppingCartDto;
+import com.mate.academy.demo.model.ShoppingCart;
+import com.mate.academy.demo.model.User;
 
 public interface ShoppingCartService {
-    ShoppingCartDto fillCart(CartItemRequestDto dto, String email);
+    ShoppingCartDto fillCart(CartItemRequestDto dto, Long id);
 
-    ShoppingCartDto updateContent(Long itemId, CartItemRequestDtoWithoutId cartItem, String email);
+    ShoppingCartDto updateContent(Long itemId, CartItemRequestDto cartItem, Long id);
 
-    void removeContent(Long cartItemId, String email);
+    void removeContent(Long cartItemId, Long id);
 
-    ShoppingCartDto fetchShoppingCart(String email);
+    ShoppingCartDto fetchShoppingCart(Long id);
+
+    ShoppingCart save(User user);
 }

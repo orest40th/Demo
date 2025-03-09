@@ -40,5 +40,5 @@ databaseChangeLog:
             baseColumnNames: shopping_cart_id
             constraintName: fk_cart_items_shopping_carts
             referencedTableName: shopping_carts
-            referencedColumnNames: id
+            referencedColumnNames: user_id
             onDelete: CASCADE

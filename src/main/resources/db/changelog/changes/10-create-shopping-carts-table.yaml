@@ -1,20 +1,16 @@
 databaseChangeLog:
   - changeSet:
-      id: root
-      author: create-shop-car-table
+      id: create-shopping-cart-table
+      author: root
       changes:
         - createTable:
             tableName: shopping_carts
             columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    nullable: false
-                    primaryKey: true
-              - column:
-                  name: user_id
-                  type: BIGINT
-                  constraints:
-                    nullable: true
+              - name: user_id
+                type: bigint
+        - addForeignKeyConstraint:
+            baseTableName: shopping_carts
+            baseColumnNames: user_id
+            constraintName: shop_cart_users_fk
+            referencedTableName: users
+            referencedColumnNames: id
