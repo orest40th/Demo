@@ -1,5 +1,6 @@
 package com.mate.academy.demo.dto;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class CartItemRequestDto {
     @Positive
+    @NotNull
     private Long bookId;
     @Positive
     private int quantity;
