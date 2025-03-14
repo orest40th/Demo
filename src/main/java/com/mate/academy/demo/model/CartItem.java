@@ -17,12 +17,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "shopping_cart_id", nullable = false)
     private ShoppingCart shoppingCart;
@@ -31,6 +33,11 @@ public class CartItem {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
+    @EqualsAndHashCode.Exclude
     @Column(nullable = false)
     private Integer quantity;
+
+    public void addOneMoreBook() {
+        setQuantity(quantity + 1);
+    }
 }
