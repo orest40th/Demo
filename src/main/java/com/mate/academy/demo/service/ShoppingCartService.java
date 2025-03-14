@@ -2,10 +2,8 @@ package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.CartItemRequestDto;
 import com.mate.academy.demo.dto.ShoppingCartDto;
-import com.mate.academy.demo.model.CartItem;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.model.User;
-import java.util.Set;
 
 public interface ShoppingCartService {
     ShoppingCartDto fillCart(CartItemRequestDto dto, Long id);
@@ -16,9 +14,5 @@ public interface ShoppingCartService {
 
     ShoppingCartDto fetchShoppingCart(Long id);
 
-    ShoppingCart fetchShoppingCartModel(Long id);
-
     ShoppingCart save(User user);
-
-    void clearCart(Long id);
 }
