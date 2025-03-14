@@ -8,10 +8,12 @@ import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto placeOrder(Long userId, String shippingAddress) {
         ShoppingCart shoppingCart = cartService.fetchShoppingCartModel(userId);
-        if (shoppingCart.getCartItems() == null
-                || shoppingCart.getCartItems().isEmpty()) {
+        if (shoppingCart.getCartItems() == null ||
+        shoppingCart.getCartItems().isEmpty()) {
             throw new DataProcessingException("Your cart is empty");
         }
 
