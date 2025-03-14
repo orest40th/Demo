@@ -7,6 +7,8 @@ import com.mate.academy.demo.dto.OrderStatusRequest;
 import com.mate.academy.demo.model.User;
 import com.mate.academy.demo.service.OrderService;
 import com.mate.academy.demo.service.ShoppingCartService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import java.util.Collection;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Order management", description = "Order endpoint management")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/orders")
@@ -33,6 +36,7 @@ public class OrderController {
     private final ShoppingCartService cartService;
     private final OrderService orderService;
 
+    @Operation(summary = "Place an order", description = "Post an order")
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,6 +46,8 @@ public class OrderController {
         return orderService.placeOrder(user.getId(), request.shippingAddress());
     }
 
+    @Operation(summary = "Get order history",
+            description = "Fetches a sorted and filtered list of orders")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping
     public List<OrderDto> getOrderHistory(Pageable pageable, Authentication authentication) {
@@ -49,6 +55,7 @@ public class OrderController {
         return orderService.findAll(pageable, user.getId()).getContent();
     }
 
+    @Operation(summary = "Get order items", description = "fetches items from an order")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("{orderId}/items")
     public List<OrderItemDto> getItemsFromOrder(@PathVariable Long orderId,
@@ -64,6 +71,7 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Get order item", description = "Fetches a specific order item")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("{orderId}/items/{id}")
     public OrderItemDto getSpecificItem(@PathVariable Long orderId,
@@ -83,6 +91,7 @@ public class OrderController {
                         String.format("Item by id %s not found in your order", id)));
     }
 
+    @Operation(summary = "Update order", description = "Resets order status")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public OrderDto updateStatus(@RequestBody @Valid OrderStatusRequest request,
