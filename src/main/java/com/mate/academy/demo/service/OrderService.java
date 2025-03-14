@@ -1,17 +1,8 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.OrderDto;
-import com.mate.academy.demo.dto.OrderStatusRequest;
 import com.mate.academy.demo.model.Order;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface OrderService {
-    OrderDto placeOrder(Long userID, String shippingAddress);
-
-    Page<OrderDto> findAll(Pageable pageable, Long userId);
-
-    OrderDto update(OrderStatusRequest request, Long id, Long userId);
+    OrderDto placeOrder(Long userID);
 }
