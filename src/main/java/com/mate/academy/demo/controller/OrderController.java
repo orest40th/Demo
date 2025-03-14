@@ -4,14 +4,16 @@ import com.mate.academy.demo.dto.OrderDto;
 import com.mate.academy.demo.dto.OrderItemDto;
 import com.mate.academy.demo.dto.OrderRequest;
 import com.mate.academy.demo.dto.OrderStatusRequest;
+import com.mate.academy.demo.dto.ShoppingCartDto;
+import com.mate.academy.demo.model.Order;
+import com.mate.academy.demo.model.OrderItem;
 import com.mate.academy.demo.model.User;
 import com.mate.academy.demo.service.OrderService;
 import com.mate.academy.demo.service.ShoppingCartService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.swing.text.html.parser.Entity;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,7 +56,6 @@ public class OrderController {
         return orderService.findAll(pageable, user.getId()).getContent();
     }
 
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("{orderId}/items")
     public List<OrderItemDto> getItemsFromOrder(@PathVariable Long orderId,
                                                 Authentication authentication,
@@ -64,7 +70,6 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("{orderId}/items/{id}")
     public OrderItemDto getSpecificItem(@PathVariable Long orderId,
                                                 @PathVariable Long id,
@@ -83,9 +88,9 @@ public class OrderController {
                         String.format("Item by id %s not found in your order", id)));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/{id}")
-    public OrderDto updateStatus(@RequestBody @Valid OrderStatusRequest request,
+    public OrderDto getOrderHistory(@RequestBody @Valid OrderStatusRequest request,
                                     @PathVariable Long id,
                                     Authentication authentication) {
         User user = (User) authentication.getPrincipal();
