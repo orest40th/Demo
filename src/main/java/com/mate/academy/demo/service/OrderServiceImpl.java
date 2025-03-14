@@ -1,6 +1,7 @@
 package com.mate.academy.demo.service;
 
 import com.mate.academy.demo.dto.OrderDto;
+import com.mate.academy.demo.dto.OrderItemDto;
 import com.mate.academy.demo.dto.OrderStatusRequest;
 import com.mate.academy.demo.exception.DataProcessingException;
 import com.mate.academy.demo.mapper.OrderMapper;
@@ -12,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,12 +40,37 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderDto> findAll(Pageable pageable, Long userId) {
-        return repository.findAllByUserId(pageable, userId).map(mapper::toDto);
+    public List<OrderItemDto> findAllItems(Pageable pageable, Long userId, Long orderId) {
+        return repository.findAllByUserIdList(pageable, userId)
+                .stream()
+                .map(mapper::toDto)
+                .filter(orderDto -> orderDto.id().equals(orderId))
+                .map(OrderDto::orderItems)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public OrderDto update(OrderStatusRequest request, Long id, Long userId) {
+    public OrderItemDto getSpecificItem(Pageable pageable, Long userId, Long orderId, Long itemId) {
+        return repository.findAllByUserIdList(pageable, userId)
+                .stream()
+                .map(mapper::toDto)
+                .filter(orderDto -> orderDto.id().equals(orderId))
+                .map(OrderDto::orderItems)
+                .flatMap(Collection::stream)
+                .filter(orderItemDto -> orderItemDto.id().equals(itemId))
+                .findAny()
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Item by id %s not found in your order", orderId)));
+    }
+
+    @Override
+    public List<OrderDto> findAll(Pageable pageable, Long userId) {
+        return repository.findAllByUserId(pageable, userId).map(mapper::toDto).getContent();
+    }
+
+    @Override
+    public OrderDto update(OrderStatusRequest request, Long id) {
         Order order = repository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(String.format("Order by id %s not found", id)));
         order.setStatus(request.status());

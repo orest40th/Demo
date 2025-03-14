@@ -52,7 +52,7 @@ public class OrderController {
     @GetMapping
     public List<OrderDto> getOrderHistory(Pageable pageable, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return orderService.findAll(pageable, user.getId()).getContent();
+        return orderService.findAll(pageable, user.getId());
     }
 
     @Operation(summary = "Get order items", description = "fetches items from an order")
@@ -62,13 +62,8 @@ public class OrderController {
                                                 Authentication authentication,
                                                 Pageable pageable) {
         User user = (User) authentication.getPrincipal();
-        return orderService.findAll(pageable, user.getId())
-                .getContent()
-                .stream()
-                .filter(orderDto -> orderDto.id().equals(orderId))
-                .map(OrderDto::orderItems)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+        return orderService.findAllItems(pageable, user.getId(), orderId);
+
     }
 
     @Operation(summary = "Get order item", description = "Fetches a specific order item")
@@ -79,16 +74,7 @@ public class OrderController {
                                                 Authentication authentication,
                                                 Pageable pageable) {
         User user = (User) authentication.getPrincipal();
-        return orderService.findAll(pageable, user.getId())
-                .getContent()
-                .stream()
-                .filter(orderDto -> orderDto.id().equals(orderId))
-                .map(OrderDto::orderItems)
-                .flatMap(Collection::stream)
-                .filter(orderItemDto -> orderItemDto.id().equals(id))
-                .findAny()
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Item by id %s not found in your order", id)));
+        return orderService.getSpecificItem(pageable, user.getId(), orderId, id);
     }
 
     @Operation(summary = "Update order", description = "Resets order status")
@@ -97,7 +83,6 @@ public class OrderController {
     public OrderDto updateStatus(@RequestBody @Valid OrderStatusRequest request,
                                     @PathVariable Long id,
                                     Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        return orderService.update(request, id, user.getId());
+        return orderService.update(request, id);
     }
 }
