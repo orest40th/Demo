@@ -9,14 +9,12 @@ import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderItemDto> findAllItems(Pageable pageable, Long userId, Long orderId) {
-        return repository.findAllByUserIdList(pageable, userId)
+        return repository.findListAllByUserId(pageable, userId)
                 .stream()
                 .map(mapper::toDto)
                 .filter(orderDto -> orderDto.id().equals(orderId))
@@ -52,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getSpecificItem(Pageable pageable, Long userId, Long orderId, Long itemId) {
-        return repository.findAllByUserIdList(pageable, userId)
+        return repository.findListAllByUserId(pageable, userId)
                 .stream()
                 .map(mapper::toDto)
                 .filter(orderDto -> orderDto.id().equals(orderId))
