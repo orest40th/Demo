@@ -18,11 +18,15 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @Table(name = "orders")
 @Getter
 @Setter
+@SQLRestriction(value = "is_deleted = false")
+@SQLDelete(sql = "UPDATE orders SET is_deleted = TRUE WHERE id = ?")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +48,8 @@ public class Order {
 
     @Column(nullable = false)
     private String shippingAddress;
+
+    private boolean isDeleted;
 
     @OneToMany(cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,

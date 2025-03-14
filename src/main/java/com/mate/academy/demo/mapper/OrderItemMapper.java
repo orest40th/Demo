@@ -1,18 +1,15 @@
 package com.mate.academy.demo.mapper;
 
 import com.mate.academy.demo.config.MapperConfig;
-import com.mate.academy.demo.dto.OrderDto;
 import com.mate.academy.demo.dto.OrderItemDto;
 import com.mate.academy.demo.model.CartItem;
-import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.OrderItem;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface OrderItemMapper {
