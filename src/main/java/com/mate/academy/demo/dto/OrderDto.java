@@ -1,7 +1,6 @@
 package com.mate.academy.demo.dto;
 
 import com.mate.academy.demo.model.Order;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
