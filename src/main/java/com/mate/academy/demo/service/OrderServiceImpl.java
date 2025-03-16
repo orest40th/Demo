@@ -3,16 +3,19 @@ package com.mate.academy.demo.service;
 import com.mate.academy.demo.dto.OrderDto;
 import com.mate.academy.demo.dto.OrderItemDto;
 import com.mate.academy.demo.dto.OrderStatusRequest;
-import com.mate.academy.demo.exception.DataProcessingException;
+import com.mate.academy.demo.exception.OrderProcessingException;
+import com.mate.academy.demo.mapper.OrderItemMapper;
 import com.mate.academy.demo.mapper.OrderMapper;
 import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import java.util.Set;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +24,16 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService {
     private final ShoppingCartService cartService;
     private final OrderMapper mapper;
+    private final OrderItemMapper itemMapper;
     private final OrderRepository repository;
 
+    @Transactional
     @Override
     public OrderDto placeOrder(Long userId, String shippingAddress) {
         ShoppingCart shoppingCart = cartService.fetchShoppingCartModel(userId);
         if (shoppingCart.getCartItems() == null
                 || shoppingCart.getCartItems().isEmpty()) {
-            throw new DataProcessingException("Your cart is empty");
+            throw new OrderProcessingException("Your cart is empty");
         }
 
         Order order = mapper.toOrder(shoppingCart);
@@ -38,33 +43,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderItemDto> findAllItems(Pageable pageable, Long userId, Long orderId) {
-        return repository.findListAllByUserId(pageable, userId)
-                .stream()
-                .map(mapper::toDto)
-                .filter(orderDto -> orderDto.id().equals(orderId))
-                .map(OrderDto::orderItems)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public Set<OrderItemDto> findAllItems(Long userId, Long orderId) {
+        Order order = repository.findByOrderId(userId, orderId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("order by id %s not found in your order", orderId)));
+        return mapper.toDto(order).orderItems();
     }
 
     @Override
-    public OrderItemDto getSpecificItem(Pageable pageable, Long userId, Long orderId, Long itemId) {
-        return repository.findListAllByUserId(pageable, userId)
+    public OrderItemDto getSpecificItem(Long userId, Long orderId, Long itemId) {
+        Order order = repository.findByOrderId( userId, orderId).
+                orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Item by id %s not found in your order", orderId)));
+
+        return mapper.toDto(order)
+                .orderItems()
                 .stream()
-                .map(mapper::toDto)
-                .filter(orderDto -> orderDto.id().equals(orderId))
-                .map(OrderDto::orderItems)
-                .flatMap(Collection::stream)
-                .filter(orderItemDto -> orderItemDto.id().equals(itemId))
+                .filter(item -> item.id().equals(itemId))
                 .findAny()
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Item by id %s not found in your order", orderId)));
     }
 
     @Override
-    public List<OrderDto> findAll(Pageable pageable, Long userId) {
-        return repository.findAllByUserId(pageable, userId).map(mapper::toDto).getContent();
+    public Page<OrderDto> findAll(Pageable pageable, Long userId) {
+        return repository.findAllByUserId(pageable, userId).map(mapper::toDto);
     }
 
     @Override

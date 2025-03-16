@@ -13,11 +13,7 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface OrderItemMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "book", source = "book")
-    @Mapping(target = "quantity", source = "quantity")
     @Mapping(target = "price", source = "book.price")
-    @Mapping(target = "order", ignore = true)
     OrderItem toOrderItem(CartItem cartItem);
 
     @Named("toOrderItemSetFromCartItemSet")
@@ -36,9 +32,7 @@ public interface OrderItemMapper {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "bookId", source = "book.id")
-    @Mapping(target = "quantity", source = "quantity")
     OrderItemDto toDto(OrderItem order);
 
     @Named("toOrderItemDtoSetFromModelSet")

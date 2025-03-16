@@ -11,7 +11,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Set;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,7 +50,7 @@ public class OrderController {
             description = "Fetches a sorted and filtered list of orders")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping
-    public List<OrderDto> getOrderHistory(Pageable pageable, Authentication authentication) {
+    public Page<OrderDto> getOrderHistory(Pageable pageable, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return orderService.findAll(pageable, user.getId());
     }
@@ -55,11 +58,10 @@ public class OrderController {
     @Operation(summary = "Get order items", description = "fetches items from an order")
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("{orderId}/items")
-    public List<OrderItemDto> getItemsFromOrder(@PathVariable Long orderId,
-                                                Authentication authentication,
-                                                Pageable pageable) {
+    public Set<OrderItemDto> getItemsFromOrder(@PathVariable Long orderId,
+                                               Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return orderService.findAllItems(pageable, user.getId(), orderId);
+        return orderService.findAllItems(user.getId(), orderId);
 
     }
 
@@ -68,10 +70,9 @@ public class OrderController {
     @GetMapping("{orderId}/items/{id}")
     public OrderItemDto getSpecificItem(@PathVariable Long orderId,
                                                 @PathVariable Long id,
-                                                Authentication authentication,
-                                                Pageable pageable) {
+                                                Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        return orderService.getSpecificItem(pageable, user.getId(), orderId, id);
+        return orderService.getSpecificItem(user.getId(), orderId, id);
     }
 
     @Operation(summary = "Update order", description = "Resets order status")
