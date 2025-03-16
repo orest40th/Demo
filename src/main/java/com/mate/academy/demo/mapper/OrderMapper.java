@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(config = MapperConfig.class, uses = OrderItemMapper.class)
 public interface OrderMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "total",
             source = "cartItems",
             qualifiedByName = "getTotalFromCartItems")

@@ -10,10 +10,8 @@ import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
-
-import java.util.Set;
-
 import jakarta.transaction.Transactional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,9 +50,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getSpecificItem(Long userId, Long orderId, Long itemId) {
-        Order order = repository.findByOrderId( userId, orderId).
-                orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Item by id %s not found in your order", orderId)));
+        Order order = repository.findByOrderId(userId, orderId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Order by id %s not found in your order", orderId)));
 
         return mapper.toDto(order)
                 .orderItems()
@@ -62,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
                 .filter(item -> item.id().equals(itemId))
                 .findAny()
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Item by id %s not found in your order", orderId)));
+                        String.format("Item by id %s not found in your order", itemId)));
     }
 
     @Override

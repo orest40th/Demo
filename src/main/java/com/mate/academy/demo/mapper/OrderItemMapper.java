@@ -13,6 +13,7 @@ import org.mapstruct.Named;
 
 @Mapper(config = MapperConfig.class)
 public interface OrderItemMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "price", source = "book.price")
     OrderItem toOrderItem(CartItem cartItem);
 
