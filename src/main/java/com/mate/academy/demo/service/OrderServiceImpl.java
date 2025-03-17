@@ -7,6 +7,7 @@ import com.mate.academy.demo.exception.OrderProcessingException;
 import com.mate.academy.demo.mapper.OrderItemMapper;
 import com.mate.academy.demo.mapper.OrderMapper;
 import com.mate.academy.demo.model.Order;
+import com.mate.academy.demo.model.OrderItem;
 import com.mate.academy.demo.model.ShoppingCart;
 import com.mate.academy.demo.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,22 +51,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getSpecificItem(Long userId, Long orderId, Long itemId) {
-        Order order = repository.findByOrderId(userId, orderId)
+        Order order = repository.findByOrderIdAndOrderItemId(userId, orderId, itemId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Order by id %s not found in your order", orderId)));
-
-        return mapper.toDto(order)
-                .orderItems()
-                .stream()
-                .filter(item -> item.id().equals(itemId))
+        OrderItem orderItem = order.getOrderItems().stream()
+                .filter(item -> item.getId().equals(itemId))
                 .findAny()
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Item by id %s not found in your order", itemId)));
+
+        return itemMapper.toDto(orderItem);
     }
 
     @Override
     public Page<OrderDto> findAll(Pageable pageable, Long userId) {
-        return repository.findAllByUserId(pageable, userId).map(mapper::toDto);
+        return repository.findAllByUserId(pageable, userId)
+                .map(mapper::toDto);
     }
 
     @Override
