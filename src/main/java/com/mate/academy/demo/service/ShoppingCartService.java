@@ -14,8 +14,6 @@ public interface ShoppingCartService {
 
     ShoppingCartDto fetchShoppingCart(Long id);
 
-    ShoppingCart fetchShoppingCartModel(Long id);
-
     ShoppingCart save(User user);
 
     void clearCart(Long id);

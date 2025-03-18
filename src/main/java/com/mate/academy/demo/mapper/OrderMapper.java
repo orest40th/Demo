@@ -12,12 +12,9 @@ import org.mapstruct.MappingTarget;
 @Mapper(config = MapperConfig.class, uses = OrderItemMapper.class)
 public interface OrderMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", source = "user")
-    @Mapping(target = "status", ignore = true)
     @Mapping(target = "total",
             source = "cartItems",
             qualifiedByName = "getTotalFromCartItems")
-    @Mapping(target = "orderDate", ignore = true)
     @Mapping(target = "shippingAddress", source = "user.shippingAddress")
     @Mapping(target = "orderItems",
             source = "cartItems",
@@ -29,13 +26,9 @@ public interface OrderMapper {
         order.getOrderItems().forEach(orderItem -> orderItem.setOrder(order));
     }
 
-    @Mapping(target = "id", source = "id")
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "orderItems",
             source = "orderItems",
             qualifiedByName = "toOrderItemDtoSetFromModelSet")
-    @Mapping(target = "orderDate", source = "orderDate")
-    @Mapping(target = "total", source = "total")
-    @Mapping(target = "status", source = "status")
     OrderDto toDto(Order order);
 }

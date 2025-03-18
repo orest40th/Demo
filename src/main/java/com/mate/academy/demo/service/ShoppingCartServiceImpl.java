@@ -75,14 +75,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart fetchShoppingCartModel(Long userId) {
-        return shoppingCartRepository
-                .findByUserId(userId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Shopping cart not found by user id %s", userId)));
-    }
-
-    @Override
     public ShoppingCart save(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);

@@ -15,9 +15,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -43,8 +45,9 @@ public class Order {
     @Column(nullable = false)
     private BigDecimal total;
 
-    @Column(nullable = false)
-    private LocalDateTime orderDate = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime orderDate;
 
     @Column(nullable = false)
     private String shippingAddress;
@@ -55,9 +58,8 @@ public class Order {
             CascadeType.MERGE,
             CascadeType.REMOVE},
             mappedBy = "order",
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private Set<OrderItem> orderItems;
+            orphanRemoval = true)
+    private Set<OrderItem> orderItems = new HashSet<>();
 
     public enum Status {
         PENDING,

@@ -1,7 +1,7 @@
 package com.mate.academy.demo.dto;
 
 import com.mate.academy.demo.model.Order;
-import com.mate.academy.demo.validation.OrderStatus;
+import jakarta.validation.constraints.NotNull;
 
-public record OrderStatusRequest(@OrderStatus Order.Status status) {
+public record OrderStatusRequest(@NotNull Order.Status status) {
 }
