@@ -34,7 +34,7 @@ public interface OrderItemMapper {
     }
 
     @Mapping(target = "bookId", source = "book.id")
-    OrderItemDto toDto(OrderItem order);
+    OrderItemDto toDto(OrderItem orderItem);
 
     @Named("toOrderItemDtoSetFromModelSet")
     default Set<OrderItemDto> toOrderItemDtoSet(Set<OrderItem> items) {

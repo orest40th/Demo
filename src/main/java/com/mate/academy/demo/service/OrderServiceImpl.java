@@ -9,7 +9,9 @@ import com.mate.academy.demo.mapper.OrderMapper;
 import com.mate.academy.demo.model.Order;
 import com.mate.academy.demo.model.OrderItem;
 import com.mate.academy.demo.model.ShoppingCart;
+import com.mate.academy.demo.repository.OrderItemRepository;
 import com.mate.academy.demo.repository.OrderRepository;
+import com.mate.academy.demo.repository.ShoppingCartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.Set;
@@ -20,19 +22,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService {
     private final ShoppingCartService cartService;
     private final OrderMapper mapper;
     private final OrderItemMapper itemMapper;
     private final OrderRepository repository;
+    private final OrderItemRepository itemRepository;
+    private final ShoppingCartRepository cartRepository;
 
     @Transactional
     @Override
     public OrderDto placeOrder(Long userId, String shippingAddress) {
-        ShoppingCart shoppingCart = cartService.fetchShoppingCartModel(userId);
+        ShoppingCart shoppingCart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Shopping cart not found by user id %s", userId)
+                ));
+
         if (shoppingCart.getCartItems() == null
                 || shoppingCart.getCartItems().isEmpty()) {
-            throw new OrderProcessingException("Your cart is empty");
+            throw new OrderProcessingException(
+                    String.format("Your cart by id %s is empty", shoppingCart.getId()));
         }
 
         Order order = mapper.toOrder(shoppingCart);
@@ -51,12 +61,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getSpecificItem(Long userId, Long orderId, Long itemId) {
-        Order order = repository.findByOrderIdAndOrderItemId(userId, orderId, itemId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Order by id %s not found in your order", orderId)));
-        OrderItem orderItem = order.getOrderItems().stream()
-                .filter(item -> item.getId().equals(itemId))
-                .findAny()
+        OrderItem orderItem = itemRepository.findByIdAndOrderIdAndUserid(userId, orderId, itemId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Item by id %s not found in your order", itemId)));
 
