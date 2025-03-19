@@ -38,15 +38,10 @@ public class CategoryServiceTest {
         List<Category> categories = List.of(new Category(), new Category());
 
         Mockito.when(repository.findAll(pageable)).thenReturn(new PageImpl<>(categories));
-        Mockito.when(mapper.toDto(Mockito.any(Category.class)))
-                .thenAnswer(invocation -> {
-                    Category category = invocation.getArgument(0);
-                    return new CategoryDto();
-                });
+        Mockito.when(mapper.toDto(Mockito.any())).thenReturn(new CategoryDto());
 
         List<CategoryDto> result = categoryService.findAll(pageable);
 
-        assertNotNull(result);
         assertEquals(2, result.size());
     }
 
