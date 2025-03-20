@@ -1,5 +1,8 @@
 package com.mate.academy.demo.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import com.mate.academy.demo.model.Book;
 import com.mate.academy.demo.repository.BookRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -10,15 +13,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class BookRepositoryTest {
 
     @Autowired
-    BookRepository repository;
+    private BookRepository repository;
 
     @Test
     @DisplayName("add 2 books and manage to retrieve 2 products from db")
