@@ -12,10 +12,11 @@ services:
     ports:
       - $MYSQL_LOCAL_PORT:$MYSQL_DOCKER_PORT
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root --password=$MYSQL_ROOT_PASSWORD" ]
-      interval: 30s
-      timeout: 30s
-      retries: 1
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "--password=$MYSQL_ROOT_PASSWORD"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+      start_period: 200s
 
   app:
     depends_on:
