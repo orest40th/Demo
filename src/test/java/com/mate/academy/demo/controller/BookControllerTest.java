@@ -50,6 +50,11 @@ public class BookControllerTest {
 
     @BeforeEach
     void setup() {
+        Category category2 = new Category();
+        category2.setName("2Romance");
+        category2.setDescription("2Romance");
+        categoryRepository.save(category2);
+        System.out.println(bookRepository.findAll());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -59,13 +64,18 @@ public class BookControllerTest {
         Category category = new Category();
         category.setName("Romance");
         category.setDescription("Romance");
+
         categoryRepository.save(category);
+
+        System.out.println(bookRepository.findAll() + "BOOKS DOUFOUND");
+        System.out.println(categoryRepository.findAll() + "CATS FAOUND");
+        categoryRepository.findAll().forEach(cat -> System.out.println(cat.getId()));
 
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setAuthor("Author Au");
         requestDto.setTitle("Java textbook");
         Set<Long> cats = new HashSet<>();
-        cats.add(category.getId());
+        cats.add(1L);
         requestDto.setCategoryIds(cats);
         requestDto.setDescription("Desc desc desc");
         requestDto.setPrice(BigDecimal.valueOf(20));

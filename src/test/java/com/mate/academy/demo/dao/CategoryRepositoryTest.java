@@ -8,6 +8,7 @@ import com.mate.academy.demo.model.Category;
 import com.mate.academy.demo.repository.CategoryRepository;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ import org.springframework.test.context.TestPropertySource;
 public class CategoryRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @BeforeEach
+    void setup() {
+        categoryRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("Save category and retrieve it by ID")
