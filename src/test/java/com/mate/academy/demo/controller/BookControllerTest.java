@@ -57,7 +57,7 @@ public class BookControllerTest {
         System.out.println(bookRepository.findAll());
     }
 
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     @Test
     @DisplayName("create a new product")
     void createBook_ValidRequestDto_Success() throws Exception {
