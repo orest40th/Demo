@@ -139,7 +139,7 @@ public class BookControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(
                         put("/books/{id}", saved.getId())
-                                .content(objectMapper.writeValueAsBytes(requestDto))
+                                .content(objectMapper.writeValueAsString(requestDto))
                                 .contentType(MediaType.APPLICATION_JSON)
                 ).andExpect(status().isOk())
                 .andReturn();
