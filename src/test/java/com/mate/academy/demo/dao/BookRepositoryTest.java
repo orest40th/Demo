@@ -9,17 +9,22 @@ import com.mate.academy.demo.model.Category;
 import com.mate.academy.demo.repository.BookRepository;
 import com.mate.academy.demo.repository.CategoryRepository;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import javax.sql.DataSource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest
@@ -31,6 +36,20 @@ public class BookRepositoryTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private DataSource dataSource;
+
+    @BeforeEach
+    void resetDatabase() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(
+                    connection,
+                    new ClassPathResource("db.changesets/teardown.sql")
+            );
+        }
+    }
 
     @Test
     @DisplayName("add 2 books and manage to retrieve 2 products from db")
@@ -81,7 +100,7 @@ public class BookRepositoryTest {
         book.setDescription("All about Docker");
         repository.save(book);
 
-        Page<Book> books = repository.findAllByCategoryId(1L, PageRequest.of(0, 10));
+        Page<Book> books = repository.findAllByCategoryId(category.getId(), PageRequest.of(0, 10));
 
         assertNotNull(books);
         assertEquals(1, books.getTotalElements());

@@ -122,7 +122,7 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("update an existing book - succeeds")
     void updateById_ExistingID_Success() {
         CreateBookRequestDto requestDto = new CreateBookRequestDto();
         requestDto.setAuthor("AuthorTest");

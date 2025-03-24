@@ -6,14 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mate.academy.demo.model.Category;
 import com.mate.academy.demo.repository.CategoryRepository;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
+import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.test.context.TestPropertySource;
 
 @DataJpaTest
@@ -23,9 +27,18 @@ public class CategoryRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private DataSource dataSource;
+
     @BeforeEach
-    void setup() {
-        categoryRepository.deleteAll();
+    void resetDatabase() throws Exception {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(
+                    connection,
+                    new ClassPathResource("db.changesets/teardown.sql")
+            );
+        }
     }
 
     @Test
