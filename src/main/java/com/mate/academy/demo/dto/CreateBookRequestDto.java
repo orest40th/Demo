@@ -4,6 +4,7 @@ import com.mate.academy.demo.validation.Author;
 import com.mate.academy.demo.validation.CoverImage;
 import com.mate.academy.demo.validation.Description;
 import com.mate.academy.demo.validation.Title;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -36,5 +37,6 @@ public class CreateBookRequestDto {
     @CoverImage
     private String coverImage;
 
+    @NotBlank
     private Set<Long> categoryIds;
 }
